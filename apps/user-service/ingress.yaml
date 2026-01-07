@@ -3,11 +3,9 @@ kind: Ingress
 metadata:
   name: user-service
   namespace: apps
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   rules:
-    - host: user.$(EC2_PUBLIC_IP).nip.io
+    - host: user.13.201.174.4.nip.io
       http:
         paths:
           - path: /
@@ -17,4 +15,3 @@ spec:
                 name: user-service
                 port:
                   number: 80
-
