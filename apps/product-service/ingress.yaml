@@ -11,7 +11,14 @@ spec:
     - host: product.projectbyradhe.xyz
       http:
         paths:
-          - path: /
+          - path: /products
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service
+                port:
+                  number: 80
+          - path: /health
             pathType: Prefix
             backend:
               service:
