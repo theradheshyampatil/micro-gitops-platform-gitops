@@ -8,10 +8,17 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: order.13.201.174.4.nip.io
+    - host: order.projectbyradhe.xyz
       http:
         paths:
-          - path: /
+          - path: /orders
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 80
+          - path: /health
             pathType: Prefix
             backend:
               service:
