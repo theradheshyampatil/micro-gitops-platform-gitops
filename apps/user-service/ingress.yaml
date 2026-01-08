@@ -4,16 +4,11 @@ metadata:
   name: user-service
   namespace: apps
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
-    traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   ingressClassName: traefik
-  tls:
-    - hosts:
-        - user.13.201.174.4.nip.io
-      secretName: user-service-tls
   rules:
-    - host: user.13.201.174.4.nip.io
+    - host: user.projectbyradhe.xyz
       http:
         paths:
           - path: /
@@ -23,3 +18,4 @@ spec:
                 name: user-service
                 port:
                   number: 80
+
