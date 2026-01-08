@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: product.13.201.174.4.nip.io
+    - host: product.projectbyradhe.xyz
       http:
         paths:
           - path: /
