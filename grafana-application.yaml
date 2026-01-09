@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: apps
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/theradheshyampatil/micro-gitops-platform-gitops.git
+    targetRevision: main
+    path: apps/grafana
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: observability
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
