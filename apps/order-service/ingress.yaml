@@ -11,14 +11,7 @@ spec:
     - host: order.projectbyradhe.xyz
       http:
         paths:
-          - path: /orders
-            pathType: Prefix
-            backend:
-              service:
-                name: order-service
-                port:
-                  number: 80
-          - path: /health
+          - path: /
             pathType: Prefix
             backend:
               service:
