@@ -15,15 +15,7 @@ spec:
     spec:
       containers:
         - name: user-service
-<<<<<<< HEAD
-<<<<<<< HEAD
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/user-service:7
-=======
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/user-service:6
->>>>>>> parent of 2682ef3 (test: break user-service deployment)
-=======
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/user-service:5
->>>>>>> parent of e7ad9a7 (fix(user-service): add root endpoint)
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
