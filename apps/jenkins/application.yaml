@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jenkins
+  namespace: apps
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/theradheshyampatil/micro-gitops-platform-gitops.git
+    targetRevision: main
+    path: apps/jenkins
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: jenkins
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
