@@ -24,23 +24,23 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /health
+              path: /products
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
 
           livenessProbe:
             httpGet:
-              path: /health
+              path: /products
               port: 3000
-            initialDelaySeconds: 15
-            periodSeconds: 20
-        
+            initialDelaySeconds: 20
+            periodSeconds: 30
+
           resources:
             requests:
-             cpu: "100m"
-             memory: "128Mi"
+              cpu: "100m"
+              memory: "128Mi"
             limits:
-             cpu: "500m"
-             memory: "256Mi"
- 
+              cpu: "500m"
+              memory: "256Mi"
+
