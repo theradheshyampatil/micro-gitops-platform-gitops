@@ -22,16 +22,15 @@ spec:
           ports:
             - containerPort: 3000
 
+          # ✅ CORRECT PROBES FOR THIS APP
           readinessProbe:
-            httpGet:
-              path: /products
+            tcpSocket:
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
 
           livenessProbe:
-            httpGet:
-              path: /products
+            tcpSocket:
               port: 3000
             initialDelaySeconds: 20
             periodSeconds: 30
@@ -43,4 +42,3 @@ spec:
             limits:
               cpu: "500m"
               memory: "256Mi"
-
