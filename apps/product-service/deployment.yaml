@@ -17,7 +17,22 @@ spec:
         - name: ecr-secret
       containers:
         - name: product-service
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/product-service:3
+          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/product-service:6
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+
