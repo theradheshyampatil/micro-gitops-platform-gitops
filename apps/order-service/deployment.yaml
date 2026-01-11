@@ -25,30 +25,30 @@ spec:
         - name: ecr-secret
 
       containers:
-        - name: order-service
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/order-service:9
-          imagePullPolicy: Always
+  - name: order-service
+    image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/order-service:9
+    imagePullPolicy: Always
 
-          ports:
-            - containerPort: 4000
+    ports:
+      - containerPort: 4000
 
-          # ✅ TCP probes (NOT HTTP)
-          readinessProbe:
-            tcpSocket:
-              port: 4000
-            initialDelaySeconds: 10
-            periodSeconds: 10
+    readinessProbe:
+      tcpSocket:
+        port: 4000
+      initialDelaySeconds: 15
+      periodSeconds: 10
 
-          livenessProbe:
-            tcpSocket:
-              port: 4000
-            initialDelaySeconds: 30
-            periodSeconds: 20
+    livenessProbe:
+      tcpSocket:
+        port: 4000
+      initialDelaySeconds: 30
+      periodSeconds: 20
 
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
-              memory: "256Mi"
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "500m"
+        memory: "256Mi"
+
