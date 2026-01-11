@@ -26,15 +26,15 @@ spec:
             httpGet:
               path: /health
               port: 4000
-            initialDelaySeconds: 5
+            initialDelaySeconds: 15
             periodSeconds: 10
 
           livenessProbe:
-            httpGet:
+              httpGet:
               path: /health
               port: 4000
-            initialDelaySeconds: 15
-            periodSeconds: 20
+           initialDelaySeconds: 30   # ⬅️ was 15
+           periodSeconds: 20
 
           resources:
             requests:
