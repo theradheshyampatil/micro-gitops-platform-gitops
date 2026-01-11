@@ -8,6 +8,7 @@ spec:
   selector:
     matchLabels:
       app: order-service
+
   template:
     metadata:
       labels:
@@ -15,6 +16,7 @@ spec:
     spec:
       imagePullSecrets:
         - name: ecr-secret
+
       containers:
         - name: order-service
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/order-service:10
