@@ -23,7 +23,7 @@ spec:
         - name: ecr-secret
             containers:
         - name: order-service
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/order-service:8
+          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/order-service:9
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
