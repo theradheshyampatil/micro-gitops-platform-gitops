@@ -5,12 +5,6 @@ metadata:
   namespace: apps
 spec:
   replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
-
   selector:
     matchLabels:
       app: order-service
