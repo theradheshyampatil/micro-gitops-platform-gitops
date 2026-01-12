@@ -19,6 +19,11 @@ spec:
         - name: frontend
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/micro-gitops-frontend:1
           imagePullPolicy: Always
+          envFrom:
+
+            - secretRef:
+
+                name: frontend-supabase
 
           ports:
             - containerPort: 80
