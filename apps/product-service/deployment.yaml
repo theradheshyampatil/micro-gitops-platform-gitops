@@ -23,7 +23,7 @@ spec:
           ports:
             - containerPort: 3000
 
-          # 🔑 SUPABASE DB ENV VARS (THIS FIXES ::1 ISSUE)
+          # 🔑 SUPABASE DB ENV VARS
           env:
             - name: DB_HOST
               valueFrom:
@@ -51,7 +51,23 @@ spec:
                   name: supabase-db
                   key: DB_PASSWORD
 
-          # ✅ READINESS PROBE
+          # ✅ READINESS PROBE (FIXED)
           readinessProbe:
             httpGet:
               path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          # ✅ LIVENESS PROBE (OPTIONAL BUT RECOMMENDED)
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+
