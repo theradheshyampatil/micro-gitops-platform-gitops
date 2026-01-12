@@ -17,7 +17,7 @@ spec:
         - name: ecr-secret
       containers:
         - name: product-service
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/product-service:13
+          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/product-service:14
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
