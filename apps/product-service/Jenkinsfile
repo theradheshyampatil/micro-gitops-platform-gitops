@@ -1,0 +1,7 @@
+@Library('gitops-lib') _
+
+gitopsServicePipeline(
+  serviceName: 'product-service',
+  appPath: 'apps/product-service',
+  ecrRepo: '908692150527.dkr.ecr.ap-south-1.amazonaws.com/product-service'
+)
