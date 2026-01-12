@@ -19,9 +19,48 @@ spec:
         - name: order-service
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/order-service:13
           imagePullPolicy: Always
+
           ports:
-            - containerPort: 4000
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
+            - containerPort: 3000
+
+          # 🔑 SUPABASE DB ENV VARS (THIS FIXES ::1)
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_PASSWORD
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20
