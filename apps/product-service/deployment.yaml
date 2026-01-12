@@ -19,25 +19,39 @@ spec:
         - name: product-service
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/product-service:15
           imagePullPolicy: Always
+
           ports:
             - containerPort: 3000
 
+          # 🔑 SUPABASE DB ENV VARS (THIS FIXES ::1 ISSUE)
+          env:
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_NAME
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: supabase-db
+                  key: DB_PASSWORD
+
+          # ✅ READINESS PROBE
           readinessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 5
-            periodSeconds: 10
-
-          livenessProbe:
-            tcpSocket:
-              port: 3000
-            initialDelaySeconds: 20
-            periodSeconds: 30
-
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
-              memory: "256Mi"
+            httpGet:
+              path: /health
