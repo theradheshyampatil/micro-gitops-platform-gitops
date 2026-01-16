@@ -17,7 +17,7 @@ spec:
         - name: ecr-secret
       containers:
         - name: frontend
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/micro-gitops-frontend:8
+          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/micro-gitops-frontend:11
           imagePullPolicy: Always
           envFrom:
 
