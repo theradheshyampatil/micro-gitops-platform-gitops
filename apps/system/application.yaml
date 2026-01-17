@@ -2,11 +2,11 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: system-jobs
-  namespace: argocd
+  namespace: gitops
 spec:
   project: default
   source:
-    repoURL: https://github.com/theradheshyampatil/micro-gitops-platform-gitops.git
+    repoURL: git@github.com:theradheshyampatil/micro-gitops-platform-gitops.git
     targetRevision: main
     path: apps/system
   destination:
