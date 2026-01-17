@@ -5,24 +5,35 @@ metadata:
   namespace: apps
 spec:
   replicas: 1
+
+  # 🔒 Prevent stuck rollouts (CRITICAL FIX)
+  progressDeadlineSeconds: 120
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
   selector:
     matchLabels:
       app: frontend
+
   template:
     metadata:
       labels:
         app: frontend
+
     spec:
       imagePullSecrets:
         - name: ecr-secret
+
       containers:
         - name: frontend
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/micro-gitops-frontend:12
           imagePullPolicy: Always
+
           envFrom:
-
             - secretRef:
-
                 name: frontend-supabase
 
           ports:
@@ -41,3 +52,4 @@ spec:
               port: 80
             initialDelaySeconds: 15
             periodSeconds: 20
+
