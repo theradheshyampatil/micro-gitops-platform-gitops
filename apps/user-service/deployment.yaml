@@ -13,8 +13,6 @@ spec:
       labels:
         app: user-service
     spec:
-      imagePullSecrets:
-        - name: ecr-secret
       containers:
         - name: user-service
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/user-service:16
