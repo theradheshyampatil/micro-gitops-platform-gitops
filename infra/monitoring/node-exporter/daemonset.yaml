@@ -14,14 +14,10 @@ spec:
       labels:
         app: node-exporter
     spec:
-      # ✅ REQUIRED for k3s single-node control-plane
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
           operator: "Exists"
           effect: "NoSchedule"
-
-      hostNetwork: true
-      hostPID: true
 
       containers:
         - name: node-exporter
@@ -37,7 +33,11 @@ spec:
           ports:
             - name: metrics
               containerPort: 9100
-              protocol: TCP
+
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
 
           volumeMounts:
             - name: proc
@@ -49,11 +49,6 @@ spec:
             - name: root
               mountPath: /host/root
               readOnly: true
-
-          securityContext:
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 65534
 
       volumes:
         - name: proc
