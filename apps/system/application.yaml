@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: system-jobs
+  name: monitoring
   namespace: gitops
 spec:
   project: default
   source:
     repoURL: git@github.com:theradheshyampatil/micro-gitops-platform-gitops.git
     targetRevision: main
-    path: apps/system
+    path: infra/monitoring
   destination:
     server: https://kubernetes.default.svc
-    namespace: kube-system
+    namespace: monitoring
   syncPolicy:
     automated:
       prune: true
