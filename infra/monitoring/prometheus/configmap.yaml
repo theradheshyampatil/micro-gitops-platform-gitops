@@ -9,10 +9,24 @@ data:
       scrape_interval: 15s
 
     scrape_configs:
+      # Kubernetes node-level discovery (limited metadata)
       - job_name: "kubernetes-nodes"
         kubernetes_sd_configs:
           - role: node
 
+      # Kubernetes pod-level discovery (limited metadata)
       - job_name: "kubernetes-pods"
         kubernetes_sd_configs:
           - role: pod
+
+      # Node CPU / Memory / Disk metrics
+      - job_name: "node-exporter"
+        static_configs:
+          - targets:
+              - node-exporter.monitoring.svc.cluster.local:9100
+
+      # Kubernetes objects: pods, deployments, replicas, namespaces
+      - job_name: "kube-state-metrics"
+        static_configs:
+          - targets:
+              - kube-state-metrics.monitoring.svc.cluster.local:8080
