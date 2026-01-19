@@ -14,13 +14,12 @@ spec:
       labels:
         app: node-exporter
     spec:
-      # ✅ REQUIRED for single-node k3s control-plane
+      # ✅ REQUIRED for k3s single-node control-plane
       tolerations:
         - key: "node-role.kubernetes.io/control-plane"
           operator: "Exists"
           effect: "NoSchedule"
 
-      # ✅ Required for host-level metrics
       hostNetwork: true
       hostPID: true
 
@@ -38,7 +37,6 @@ spec:
           ports:
             - name: metrics
               containerPort: 9100
-              hostPort: 9100
               protocol: TCP
 
           volumeMounts:
