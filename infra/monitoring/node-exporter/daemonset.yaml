@@ -3,6 +3,8 @@ kind: DaemonSet
 metadata:
   name: node-exporter
   namespace: monitoring
+  labels:
+    app: node-exporter
 spec:
   selector:
     matchLabels:
@@ -12,11 +14,56 @@ spec:
       labels:
         app: node-exporter
     spec:
+      # ✅ REQUIRED for single-node k3s control-plane
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+
+      # ✅ Required for host-level metrics
       hostNetwork: true
       hostPID: true
+
       containers:
         - name: node-exporter
           image: prom/node-exporter:v1.7.0
+          imagePullPolicy: IfNotPresent
+
+          args:
+            - "--path.procfs=/host/proc"
+            - "--path.sysfs=/host/sys"
+            - "--path.rootfs=/host/root"
+            - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($|/)"
+
           ports:
-            - containerPort: 9100
+            - name: metrics
+              containerPort: 9100
               hostPort: 9100
+              protocol: TCP
+
+          volumeMounts:
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: sys
+              mountPath: /host/sys
+              readOnly: true
+            - name: root
+              mountPath: /host/root
+              readOnly: true
+
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+
+      volumes:
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: sys
+          hostPath:
+            path: /sys
+        - name: root
+          hostPath:
+            path: /
