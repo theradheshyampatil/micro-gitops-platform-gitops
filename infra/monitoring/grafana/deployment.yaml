@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: grafana
   namespace: monitoring
-  labels:
-    app: grafana
 spec:
   replicas: 1
   selector:
@@ -20,7 +18,13 @@ spec:
           image: grafana/grafana:10.3.1
           ports:
             - containerPort: 3000
-              name: http
           envFrom:
             - secretRef:
                 name: grafana-admin-secret
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-data
