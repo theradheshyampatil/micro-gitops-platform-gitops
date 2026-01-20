@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: monitoring
+data:
+  kubernetes-cluster.json: |
+    {
+      "uid": "k8s-cluster",
+      "title": "Kubernetes Cluster (GitOps)",
+      "schemaVersion": 37,
+      "version": 1,
+      "refresh": "30s",
+      "panels": []
+    }
+
+  node-exporter.json: |
+    {
+      "uid": "node-exporter",
+      "title": "Node Exporter (GitOps)",
+      "schemaVersion": 37,
+      "version": 1,
+      "refresh": "30s",
+      "panels": []
+    }
