@@ -1,19 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd
+  name: user-service
   namespace: gitops
 spec:
   project: default
   source:
-    repoURL: git@github.com:theradheshyampatil/micro-gitops-platform-gitops.git
+    repoURL: https://github.com/theradheshyampatil/micro-gitops-platform-gitops.git
     targetRevision: main
-    path: infra/argocd
+    path: apps/user-service
   destination:
     server: https://kubernetes.default.svc
-    namespace: gitops
+    namespace: apps
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-
