@@ -1,33 +1,28 @@
-# Micro GitOps Platform – GitOps Repository
+# Micro GitOps Platform
 
-## What is this repository?
+Production-style GitOps platform running on Kubernetes (k3s) with:
 
-This repository defines the **desired state of Kubernetes**.
+## Stack
+- Jenkins (CI)
+- AWS ECR
+- GitHub (Source + GitOps)
+- Argo CD (CD)
+- Traefik (Ingress)
+- cert-manager (TLS)
+- Prometheus + Grafana (Monitoring)
 
-Think of this repository as:
-👉 **How the cluster should look**
+## Architecture
+CI:
+Jenkins → Build → Push Image → Update GitOps repo
 
-This repository is watched by **Argo CD**.
+CD:
+GitOps repo → Argo CD → k3s → Traefik
 
----
+## Access
+- Jenkins: https://jenkins.projectbyradhe.xyz
 
-## Golden Rule (Very Important)
-
-If something exists in the cluster:
-✅ It must exist in this repository
-
-If it does not exist here:
-❌ It should not exist in the cluster
-
-This is GitOps.
-
----
-
-## Directory Structure
-
-```text
-apps/
-├── user-service/
-├── product-service/
-└── order-service/
+## Notes
+- Jenkins home is PVC-backed (not committed)
+- All manifests are declarative
+- Platform is restart-safe
 
