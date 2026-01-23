@@ -16,9 +16,21 @@ spec:
       containers:
         - name: jenkins
           image: jenkins/jenkins:lts-jdk21
+          env:
+            - name: JAVA_HOME
+              value: /opt/java/openjdk
+            - name: JENKINS_OPTS
+              value: "--httpPort=8080 --prefix=/"
+            - name: JAVA_OPTS
+              value: >
+                -Djenkins.install.runSetupWizard=false
+                -Djenkins.security.ReverseProxySetup=true
+                -Djenkins.model.Jenkins.slaveAgentPort=50000
           ports:
-            - containerPort: 8080
-            - containerPort: 50000
+            - name: http
+              containerPort: 8080
+            - name: agent
+              containerPort: 50000
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home

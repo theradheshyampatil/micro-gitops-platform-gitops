@@ -8,9 +8,11 @@ spec:
     app: jenkins
   ports:
     - name: http
-      port: 8080
-      targetPort: 8080
+      port: 80         # service port that Ingress will target
+      targetPort: 8080 # container port where Jenkins listens
+      protocol: TCP
     - name: agent
       port: 50000
       targetPort: 50000
+      protocol: TCP
   type: ClusterIP

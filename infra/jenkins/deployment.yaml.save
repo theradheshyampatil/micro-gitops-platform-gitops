@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:
+  - name: jenkins
+    image: jenkins/jenkins:lts-jdk21
+    env:
+      - name: JAVA_HOME
+        value: /opt/java/openjdk
+      - name: JENKINS_OPTS
+        value: >
+          --httpPort=8080
+      - name: JAVA_OPTS
+        value: 
+          -Djenkins.install.runSetupWizard=false
+          -Djenkins.model.Jenkins.slaveAgentPort=50000
+          -Dhudson.TcpSlaveAgentListener.hostName=jenkins.jenkins.svc.cluster.local
+          -Dorg.eclipse.jetty.server.Request.maxFormContentSize=5000000
+          -Djenkins.security.ReverseProxySetup=true
+    ports:
+      - containerPort: 8080
+      - containerPort: 50000
+    volumeMounts:
+      - name: jenkins-home
+        mountPath: /var/jenkins_home
+
