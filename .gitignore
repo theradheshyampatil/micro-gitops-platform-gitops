@@ -30,3 +30,7 @@ charts/
 *.key
 *.crt
 .env
+
+# Local-only jenkins ingress variants
+infra/jenkins/ingress-http.yaml
+infra/jenkins/ingress-https.yaml
