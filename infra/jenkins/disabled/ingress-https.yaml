@@ -5,9 +5,14 @@ metadata:
   namespace: jenkins
   annotations:
     kubernetes.io/ingress.class: traefik
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - jenkins.projectbyradhe.xyz
+      secretName: jenkins-tls
   rules:
     - host: jenkins.projectbyradhe.xyz
       http:
