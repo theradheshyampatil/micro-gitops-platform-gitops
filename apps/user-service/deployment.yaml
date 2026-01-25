@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/user-service:3
+          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/user-service:4
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
