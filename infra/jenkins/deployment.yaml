@@ -13,9 +13,43 @@ spec:
       labels:
         app: jenkins
     spec:
+      serviceAccountName: jenkins-controller
+      
+      # --- ADDED THIS SECTION ---
+      imagePullSecrets:
+      - name: ecr-registry-secret
+      # --------------------------
+
+      initContainers:
+        - name: setup-github-ssh
+          image: alpine:3.20
+          command:
+            - sh
+            - -lc
+            - |
+              set -eux
+              apk add --no-cache openssh-client
+              mkdir -p /ssh
+              chmod 700 /ssh
+              cp /secret/id_ed25519 /ssh/id_ed25519
+              cp /secret/id_ed25519.pub /ssh/id_ed25519.pub
+              chmod 600 /ssh/id_ed25519
+              chmod 644 /ssh/id_ed25519.pub
+              (ssh-keyscan -H github.com >> /ssh/known_hosts) || true
+              chmod 644 /ssh/known_hosts || true
+              chown -R 1000:1000 /ssh
+          volumeMounts:
+            - name: github-ssh-secret
+              mountPath: /secret
+              readOnly: true
+            - name: ssh-dir
+              mountPath: /ssh
+
       containers:
         - name: jenkins
-          image: jenkins/jenkins:lts-jdk21
+          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/jenkins-tools:lts-jdk21-dockercli
+          imagePullPolicy: Always  # Changed to Always to ensure it pulls the latest push
+          
           env:
             - name: JAVA_HOME
               value: /opt/java/openjdk
@@ -26,15 +60,31 @@ spec:
                 -Djenkins.install.runSetupWizard=false
                 -Djenkins.security.ReverseProxySetup=true
                 -Djenkins.model.Jenkins.slaveAgentPort=50000
+
           ports:
             - name: http
               containerPort: 8080
             - name: agent
               containerPort: 50000
+
           volumeMounts:
             - name: jenkins-home
               mountPath: /var/jenkins_home
+            - name: ssh-dir
+              mountPath: /var/jenkins_home/.ssh
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+
       volumes:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: jenkins-home-pvc
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket
+        - name: github-ssh-secret
+          secret:
+            secretName: github-ssh-key
+        - name: ssh-dir
+          emptyDir: {}
