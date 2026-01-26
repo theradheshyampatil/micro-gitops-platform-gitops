@@ -1,9 +1,13 @@
 apiVersion: v1
-kind: Secret
+kind: Service
 metadata:
-  name: frontend-supabase
+  name: frontend
   namespace: apps
-type: Opaque
-stringData:
-  VITE_SUPABASE_URL: https://aqwezbscepotoqnhsvsb.supabase.co
-  VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFxd2V6YnNlY3BvdG9xbmhzdnNiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgxOTU1NDcsImV4cCI6MjA4Mzc3MTU0N30.isyFmAqNk7y4v6gjKWQLKXpGeDhYLFJHdvRvKoHVEbM
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
