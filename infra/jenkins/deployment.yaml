@@ -14,15 +14,15 @@ spec:
         app: jenkins
     spec:
       serviceAccountName: jenkins-controller
-      
-      # --- ADDED THIS SECTION ---
+
       imagePullSecrets:
-      - name: ecr-registry-secret
-      # --------------------------
+        - name: ecr-registry-secret
 
       initContainers:
         - name: setup-github-ssh
           image: alpine:3.20
+          securityContext:
+            runAsUser: 0
           command:
             - sh
             - -lc
@@ -35,8 +35,8 @@ spec:
               cp /secret/id_ed25519.pub /ssh/id_ed25519.pub
               chmod 600 /ssh/id_ed25519
               chmod 644 /ssh/id_ed25519.pub
-              (ssh-keyscan -H github.com >> /ssh/known_hosts) || true
-              chmod 644 /ssh/known_hosts || true
+              ssh-keyscan -H github.com >> /ssh/known_hosts
+              chmod 644 /ssh/known_hosts
               chown -R 1000:1000 /ssh
           volumeMounts:
             - name: github-ssh-secret
@@ -48,8 +48,13 @@ spec:
       containers:
         - name: jenkins
           image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/jenkins-tools:lts-jdk21-dockercli
-          imagePullPolicy: Always  # Changed to Always to ensure it pulls the latest push
-          
+          imagePullPolicy: Always
+
+          # 🔥 THIS IS THE CRITICAL FIX 🔥
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 0
+
           env:
             - name: JAVA_HOME
               value: /opt/java/openjdk
@@ -79,12 +84,15 @@ spec:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: jenkins-home-pvc
+
         - name: docker-sock
           hostPath:
             path: /var/run/docker.sock
             type: Socket
+
         - name: github-ssh-secret
           secret:
             secretName: github-ssh-key
+
         - name: ssh-dir
           emptyDir: {}
