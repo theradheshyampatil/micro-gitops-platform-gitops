@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/micro-gitops-frontend:14
+          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/micro-gitops-frontend:6
           imagePullPolicy: Always
 
           envFrom:
