@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: payments-service
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-org/micro-gitops-platform-gitops
+    targetRevision: main
+    path: apps/payments-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: apps
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
