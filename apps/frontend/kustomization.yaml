@@ -7,5 +7,3 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
-  - secret.yaml
-  - secret-firebase.yaml
