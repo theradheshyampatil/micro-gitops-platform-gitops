@@ -47,8 +47,8 @@ spec:
 
       containers:
         - name: jenkins
-          image: 908692150527.dkr.ecr.ap-south-1.amazonaws.com/jenkins-tools:lts-jdk21-dockercli
-          imagePullPolicy: Always
+          image: jenkins/jenkins:lts-jdk21
+          imagePullPolicy: IfNotPresent
 
           # 🔥 THIS IS THE CRITICAL FIX 🔥
           securityContext:
