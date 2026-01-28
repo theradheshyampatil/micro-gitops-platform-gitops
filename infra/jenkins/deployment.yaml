@@ -18,6 +18,9 @@ spec:
       imagePullSecrets:
         - name: ecr-registry-secret
 
+      securityContext:
+        fsGroup: 1000
+
       initContainers:
         - name: setup-github-ssh
           image: alpine:3.20
@@ -49,11 +52,6 @@ spec:
         - name: jenkins
           image: jenkins/jenkins:lts-jdk21
           imagePullPolicy: IfNotPresent
-
-          # 🔥 THIS IS THE CRITICAL FIX 🔥
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
 
           env:
             - name: JAVA_HOME

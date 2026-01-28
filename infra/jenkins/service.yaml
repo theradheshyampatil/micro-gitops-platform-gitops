@@ -8,8 +8,8 @@ spec:
     app: jenkins
   ports:
     - name: http
-      port: 80         # service port that Ingress will target
-      targetPort: 8080 # container port where Jenkins listens
+      port: 80
+      targetPort: 8080
       protocol: TCP
     - name: agent
       port: 50000
